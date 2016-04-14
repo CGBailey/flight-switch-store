@@ -35,7 +35,6 @@ router.post('/signup', function(req,res,next){
 });
 
 router.post('/login', function(req,res,next){
-  console.log(bookshelf);
   bookshelf.knex('users')
   .where('email', '=', req.body.email)
   .first()

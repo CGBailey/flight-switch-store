@@ -32,7 +32,7 @@ bookshelf.Shirt.fetchAll({withRelated: ['designs', 'colors', 'sizes', 'shirtImag
   bookshelf.Order.fetchAll({withRealated: ['users', 'status', 'orderItems', 'shirts']})
   .then(function(ordRes) {
     var orders = ordRes.serialize();
-    bookshelf.knex.columns(['id','email', 'admin']).select().from('users')
+    bookshelf.knex.columns(['id','email', 'admin', 'fname', 'lname']).select().from('users')
     .then(function(users) {
       res.render('./admin/admin', {shirts: products, orders: orders, users: users});
       })
@@ -52,6 +52,10 @@ router.get('/product/:id/delete', function(req, res, next) {
     res.redirect('/admin');
 });
 
+router.get('/orders/add', function(req, res, next) {
+
+});
+
 router.post('/order/:id', function(req, res, next) {
   bookshelf.Order.where({id: req.params.id}).fetch().then(function(order){
     order.set({address: req.body.address, city: req.body.city, state: req.body.state, zip: req.body.zip, order_status_id: req.body.OrderStatus}).save();
@@ -62,7 +66,7 @@ router.post('/order/:id', function(req, res, next) {
 
 router.post('/users/:id', function(req, res, next) {
   bookshelf.User.where({id: req.params.id}).fetch().then(function(user){
-    user.set({email: req.body.email, admin: req.body.admin}).save();
+    user.set({fname: req.body.fname, lname: req.params.lname, email: req.body.email, admin: req.body.isadmin}).save();
     res.redirect('/admin');
   });
 });

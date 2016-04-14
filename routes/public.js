@@ -14,7 +14,7 @@ function isUser(req, res, next) {
 };
 
 function authenticUser(req, res, next) {
-  if(req.signedCookies.userID === req.params.id) {
+  if(req.session.id === req.params.id) {
     next();
   }else{
     res.redirect(401, '/');
